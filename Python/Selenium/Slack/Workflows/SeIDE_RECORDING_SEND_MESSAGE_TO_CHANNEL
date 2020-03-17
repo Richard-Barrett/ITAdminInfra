@@ -1,0 +1,255 @@
+{
+  "id": "8e9a33c2-6487-41d2-b1e9-cb0ffbde97df",
+  "version": "2.0",
+  "name": "slack_automation",
+  "url": "https://miracloud.slack.com",
+  "tests": [{
+    "id": "88628dbe-d651-46df-a0ac-fe4e060d6c53",
+    "name": "Slack Message Send Keys to Channel ",
+    "commands": [{
+      "id": "eb3c58ef-37c5-4c8d-9261-33c47b94efb9",
+      "comment": "",
+      "command": "open",
+      "target": "/",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "728e3b7e-8fea-44ec-978f-3b2f3e823673",
+      "comment": "",
+      "command": "setWindowSize",
+      "target": "1440x900",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "95950fe2-91a0-40e1-b45c-02d8ea3909e6",
+      "comment": "",
+      "command": "click",
+      "target": "id=index_google_sign_in_with_google",
+      "targets": [
+        ["id=index_google_sign_in_with_google", "id"],
+        ["linkText=Sign in with Google", "linkText"],
+        ["css=#index_google_sign_in_with_google", "css:finder"],
+        ["xpath=//a[contains(text(),'Sign in with Google')]", "xpath:link"],
+        ["xpath=//a[@id='index_google_sign_in_with_google']", "xpath:attributes"],
+        ["xpath=//div[@id='page_contents']/div[2]/div/p[2]/a", "xpath:idRelative"],
+        ["xpath=//a[contains(@href, 'https://accounts.google.com/o/oauth2/auth?client_id=619872790197-0au3m58c2q0phgqbqqp4ka429ckusggt.apps.googleusercontent.com&response_type=code&scope=openid+profile+email&redirect_uri=https%3A%2F%2Fslack.com%2Fsso%2Fgoogle&state=eyJzdGF0ZSI6InY1LjMzNTI0NDMwOTUubG9naW4uLmVuUXRNVEF3T1RNMU5qSXpPVEU1TUMwd01qZGpNR0ZsTlRWak56QmlaR0UwTUdRNE1qQXdOakptTnpVM1pqUTNZMlExTm1SbVlUVTNNV1EwTnpjME16a3dNamxoT1RObE9EWTRNbVJoT0RJMS4wLmY5MmI4YTEzYzgxMDgwMWVlZWE0NzUzOWQ4OGM0MzE0NzliMmFkY2M1YjAyYzdkYjEwNjU0MGUwOTM2NmZjZWIifQ%253D%253D&access_type=online&hd=mirantis.com')]", "xpath:href"],
+        ["xpath=//p[2]/a", "xpath:position"],
+        ["xpath=//a[contains(.,'Sign in with Google')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "f2b5e0af-2d9c-4271-8771-3dee55e67a57",
+      "comment": "",
+      "command": "click",
+      "target": "css=.c-button--primary",
+      "targets": [
+        ["css=.c-button--primary", "css:finder"],
+        ["xpath=(//button[@type='button'])[66]", "xpath:attributes"],
+        ["xpath=//div[7]/div/div/div[3]/div/button[2]", "xpath:position"],
+        ["xpath=//button[contains(.,'Set to Active')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "c51fae76-2264-4a11-8ef0-504f408fa8aa",
+      "comment": "",
+      "command": "runScript",
+      "target": "window.scrollTo(0,0)",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "ebb92d18-ee09-4587-b87c-86292ba1980a",
+      "comment": "",
+      "command": "runScript",
+      "target": "window.scrollTo(0,0)",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "8c954eb6-5734-425d-86b5-2884040b98b9",
+      "comment": "",
+      "command": "mouseOver",
+      "target": "css=#CB1CK1HT7 .p-channel_sidebar__name",
+      "targets": [
+        ["css=#CB1CK1HT7 .p-channel_sidebar__name", "css:finder"],
+        ["xpath=//div[@id='CB1CK1HT7']/a/span", "xpath:idRelative"],
+        ["xpath=//div[28]/a/span", "xpath:position"],
+        ["xpath=//span[contains(.,'sto-helpdesk')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "577ffd35-8777-491f-a511-6c78ffe0c24d",
+      "comment": "",
+      "command": "click",
+      "target": "css=#CB1CK1HT7 .p-channel_sidebar__name",
+      "targets": [
+        ["css=#CB1CK1HT7 .p-channel_sidebar__name", "css:finder"],
+        ["xpath=//div[@id='CB1CK1HT7']/a/span", "xpath:idRelative"],
+        ["xpath=//div[28]/a/span", "xpath:position"],
+        ["xpath=//span[contains(.,'sto-helpdesk')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "f5ee6f6f-6287-4c7b-aa6f-b20986ac7149",
+      "comment": "",
+      "command": "mouseOut",
+      "target": "css=.p-channel_sidebar__channel--selected > .p-channel_sidebar__name",
+      "targets": [
+        ["css=.p-channel_sidebar__channel--selected > .p-channel_sidebar__name", "css:finder"],
+        ["xpath=//div[@id='CB1CK1HT7']/a/span", "xpath:idRelative"],
+        ["xpath=//div[28]/a/span", "xpath:position"],
+        ["xpath=//span[contains(.,'sto-helpdesk')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "6888fbde-bb0a-4cdb-b2d4-39661b02c19b",
+      "comment": "",
+      "command": "runScript",
+      "target": "window.scrollTo(0,0)",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "26b6d1c9-b1ea-4df7-97e6-881b5dd2d93d",
+      "comment": "",
+      "command": "click",
+      "target": "css=#undefined > p",
+      "targets": [
+        ["css=#undefined > p", "css:finder"],
+        ["xpath=//div[@id='undefined']/p", "xpath:idRelative"],
+        ["xpath=//p", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "2b9ec976-7ee1-4b40-9a9d-96bed8107453",
+      "comment": "",
+      "command": "mouseOver",
+      "target": "css=.c-icon--share-square-o",
+      "targets": [
+        ["css=.c-icon--share-square-o", "css:finder"],
+        ["xpath=//i[@type='share-square-o']", "xpath:attributes"],
+        ["xpath=//div[@id='1584470712.474900']/div/div/div/div[3]/button[3]/i", "xpath:idRelative"],
+        ["xpath=//div[19]/div/div/div/div[3]/button[3]/i", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "a321e622-53bd-4b90-b813-91bae732573f",
+      "comment": "",
+      "command": "mouseOver",
+      "target": "css=.c-message_actions__button:nth-child(2)",
+      "targets": [
+        ["css=.c-message_actions__button:nth-child(2)", "css:finder"],
+        ["xpath=(//button[@type='button'])[54]", "xpath:attributes"],
+        ["xpath=//div[@id='1584470171.473700']/div/div/div/div[3]/button[2]", "xpath:idRelative"],
+        ["xpath=//div[17]/div/div/div/div[3]/button[2]", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "0952e576-e282-4dd8-a287-a57271b7e6e9",
+      "comment": "",
+      "command": "mouseOver",
+      "target": "css=.c-icon--cog-o",
+      "targets": [
+        ["css=.c-icon--cog-o", "css:finder"],
+        ["xpath=//i[@type='cog-o']", "xpath:attributes"],
+        ["xpath=//div[2]/div[2]/button[3]/i", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "d62b71fb-bc36-4f5b-bee6-2de897e7368c",
+      "comment": "",
+      "command": "mouseOver",
+      "target": "css=.c-message_actions__button:nth-child(2)",
+      "targets": [
+        ["css=.c-message_actions__button:nth-child(2)", "css:finder"],
+        ["xpath=(//button[@type='button'])[54]", "xpath:attributes"],
+        ["xpath=//div[@id='1584470171.473700']/div/div/div/div[3]/button[2]", "xpath:idRelative"],
+        ["xpath=//div[17]/div/div/div/div[3]/button[2]", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "f4157b49-6601-4c35-a67d-2577009831fd",
+      "comment": "",
+      "command": "mouseOver",
+      "target": "css=.c-message_actions__button:nth-child(2)",
+      "targets": [
+        ["css=.c-message_actions__button:nth-child(2)", "css:finder"],
+        ["xpath=(//button[@type='button'])[55]", "xpath:attributes"],
+        ["xpath=//div[@id='1584470226.474300']/div/div/div/div[3]/button[2]", "xpath:idRelative"],
+        ["xpath=//div[18]/div/div/div/div[3]/button[2]", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "bc30bf20-b9cd-4781-bde6-f886af16c1b1",
+      "comment": "",
+      "command": "mouseOver",
+      "target": "css=.c-icon--add-reaction",
+      "targets": [
+        ["css=.c-icon--add-reaction", "css:finder"],
+        ["xpath=//i[@type='add-reaction']", "xpath:attributes"],
+        ["xpath=//div[@id='1584470712.474900']/div/div/div/div[3]/button/i", "xpath:idRelative"],
+        ["xpath=//div[19]/div/div/div/div[3]/button/i", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "4749cd34-83dd-450d-bf81-cdf5815e7e51",
+      "comment": "",
+      "command": "mouseOver",
+      "target": "linkText=Ashok Yedla",
+      "targets": [
+        ["linkText=Ashok Yedla", "linkText"],
+        ["css=#\\31 584472409\\.483200 .c-message__sender > .c-link", "css:finder"],
+        ["xpath=//a[contains(text(),'Ashok Yedla')]", "xpath:link"],
+        ["xpath=//div[@id='1584472409.483200']/div/div/div/div[2]/div[2]/span/a", "xpath:idRelative"],
+        ["xpath=//a[contains(@href, '/team/U9NC576KE')]", "xpath:href"],
+        ["xpath=//div[9]/div/div/div/div[2]/div[2]/span/a", "xpath:position"],
+        ["xpath=//a[contains(.,'Ashok Yedla')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "bdc7f20e-d1ac-4e20-b55d-53a6ee9e0975",
+      "comment": "",
+      "command": "mouseOut",
+      "target": "linkText=Ashok Yedla",
+      "targets": [
+        ["linkText=Ashok Yedla", "linkText"],
+        ["css=#\\31 584472409\\.483200 .c-message__sender > .c-link", "css:finder"],
+        ["xpath=//a[contains(text(),'Ashok Yedla')]", "xpath:link"],
+        ["xpath=//div[@id='1584472409.483200']/div/div/div/div[2]/div[2]/span/a", "xpath:idRelative"],
+        ["xpath=//a[contains(@href, '/team/U9NC576KE')]", "xpath:href"],
+        ["xpath=//div[9]/div/div/div/div[2]/div[2]/span/a", "xpath:position"],
+        ["xpath=//a[contains(.,'Ashok Yedla')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "6e8c3603-fbed-4b39-905d-e8fdb5a00357",
+      "comment": "",
+      "command": "click",
+      "target": "css=.p-classic_nav__team_header__user__name__truncate",
+      "targets": [
+        ["css=.p-classic_nav__team_header__user__name__truncate", "css:finder"],
+        ["xpath=//div[@id='team-menu-trigger']/div[2]/span/span", "xpath:idRelative"],
+        ["xpath=//span/span", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "168607bb-1ae8-4953-826f-e8ff8d58d0ee",
+      "comment": "",
+      "command": "click",
+      "target": "css=#menu-99e199db-cda4-4be0-ad87-2bb5cb3de04f-15 > .c-menu_item__label",
+      "targets": [
+        ["css=#menu-99e199db-cda4-4be0-ad87-2bb5cb3de04f-15 > .c-menu_item__label", "css:finder"],
+        ["xpath=//button[@id='menu-99e199db-cda4-4be0-ad87-2bb5cb3de04f-15']/div", "xpath:idRelative"],
+        ["xpath=//div[15]/button/div", "xpath:position"]
+      ],
+      "value": ""
+    }]
+  }],
+  "suites": [{
+    "id": "c421a367-47d6-4b6a-925c-1be6fa42bb96",
+    "name": "Default Suite",
+    "persistSession": false,
+    "parallel": false,
+    "timeout": 300,
+    "tests": ["88628dbe-d651-46df-a0ac-fe4e060d6c53"]
+  }],
+  "urls": ["https://miracloud.slack.com/"],
+  "plugins": []
+}
