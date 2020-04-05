@@ -26,3 +26,7 @@ echo $SHELL
 cd ~/Git/ITAdminInfra
   ./install_oh_my_zsh.sh
 cd ~
+
+# Make Sym Links
+# ln -s /path/to/original /path/to/link
+ls -s ~/Git/Administration/Git/autopull.sh ~/git
