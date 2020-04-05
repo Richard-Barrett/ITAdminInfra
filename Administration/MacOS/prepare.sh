@@ -30,3 +30,6 @@ cd ~
 # Make Sym Links
 # ln -s /path/to/original /path/to/link
 ls -s ~/Git/Administration/Git/autopull.sh ~/git
+
+# Make a Passwordless SSH Key in .ssh
+ssh-keygen -b 4096 -t rsa -f /.ssh/ -q -N ""
