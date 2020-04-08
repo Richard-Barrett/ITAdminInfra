@@ -1,8 +1,10 @@
 #!/usr/bin/env python
 
+import getpass
 import json
 import logging
 import pandas as pd
+import platform
 import os
 import requests
 import selenium
@@ -18,8 +20,9 @@ from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
+from datetime import date
 
-decrypt = "gpg --output secrets_test.json --decrypt secrets.gpg" 
+decrypt = "gpg --output secrets.json --decrypt secrets.gpg" 
 
 if os.path.exists("secrets.gpg"):
       returned_value = subprocess.call(decrypt, shell=True)
@@ -27,11 +30,12 @@ else:
         print("The file does not exist")
             
 import json
-with open('secrets_test.json','r') as f:
+with open('secrets.json','r') as f:
       config = json.load(f)
 
-requests.get('https://mirantis.webex.com', 
-              auth=HTTPBasicAuth(config['username']['password']))
+#requests.get('https://mirantis.webex.com', 
+#              auth=HTTPBasicAuth(config['username']['password']))
+
 # Definitions
 # find_elements_by_name
 # find_elements_by_xpath
@@ -49,9 +53,10 @@ system = platform.system()
 username = getpass.getuser()
 version = platform.version()
 current_directory = os.getcwd()
+delay = 20 # Seconds
 
 # URL Variables 
-url = "hhttps://mirantis.webex.com/webappng/sites/mirantis/dashboard?siteurl=mirantis"
+url = "https://mirantis.webex.com"
 
 # Element Pattern Variables
 meetings_xpath_pattern = '//*[@id="main_content"]/div/div[1]/div[2]/div/div'
@@ -75,6 +80,32 @@ else:
 # Parent URL
 browser.get(url)
 
+# Click on Sign-in 
+# Sign-In Button XPATH = //*[@id='guest_signin_button']
+element = WebDriverWait(browser, 20).until(
+                        EC.element_to_be_clickable((By.XPATH, "//*[@id='guest_signin_button']")))
+element.click();
+
+fr = browser.findElementById("topframeset");
+browser.switchTo().frame(fr);
+#browser.switchTo.frame("topframeset")
+#browser.switch_to.frame("main")
+
+# Authentication
+# Credentials NEEDS UNIT TEST
+username = WebDriverWait(browser, delay).until(EC.presence_of_element_located((By.ID, 'mwx-ipt-username')))
+#utente = browser.find_element_by_id("mwx-ipt-username").send_keys('user@gestione.eu')
+password = WebDriverWait(browser, delay).until(EC.presence_of_element_located((By.ID, 'mwx-ipt-password')))
+username.send_keys(config['user']['username'])
+password.send_keys(config['user']['password'])
+
+# Authentication submit.click()
+# For XPATH = //*[@id='mwx-btn-logon']
+element = WebDriverWait(browser, 20).until(
+                EC.element_to_be_clickable((By.XPATH, "//*[@id='mwx-btn-logon']")))
+element.click();
+print("Logging into Mirantis WebEx System!")
+
 # GET Page Source
 # page = requests.get('https://mirantis.webex.com/webappng/sites/mirantis/meeting/home')
 # tree = html.fromstring(page.content)
@@ -88,5 +119,4 @@ browser.get(url)
 #try:
 #    browser.get(url)
 #    find_meetings(driver, meetings_xpath_pattern)
-#finally:
-#    driver.close()
+
