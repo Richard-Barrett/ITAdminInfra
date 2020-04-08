@@ -85,9 +85,9 @@ browser.get(url)
 element = WebDriverWait(browser, 20).until(
                         EC.element_to_be_clickable((By.XPATH, "//*[@id='guest_signin_button']")))
 element.click();
-
-fr = browser.findElementById("topframeset");
-browser.switchTo().frame(fr);
+WebDriverWait(browser,20).until(EC.frame_to_be_available_and_switch_to_it((By.NAME,"mainFrame")))
+#fr = browser.findElementById("topframeset");
+#browser.switchTo().frame(fr);
 #browser.switchTo.frame("topframeset")
 #browser.switch_to.frame("main")
 
