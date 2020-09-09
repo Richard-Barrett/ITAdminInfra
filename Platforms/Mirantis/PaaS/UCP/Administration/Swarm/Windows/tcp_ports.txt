@@ -1,0 +1,22 @@
+# To see the full list of requirements go to 
+# https://docs.mirantis.com/docker-enterprise/v3.1/dockeree-products/ucp/install-ucp.html#system-requirements
+179
+443
+2376
+2377
+6443
+6444
+7946
+9099
+10250
+12376
+12378
+12379
+12380
+12381
+12382
+12383
+12384
+12385
+12386
+12388
