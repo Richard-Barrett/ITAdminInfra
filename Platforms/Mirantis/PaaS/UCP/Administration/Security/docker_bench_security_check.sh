@@ -12,7 +12,7 @@ while true; do
                 -v /usr/lib/systemd:/usr/lib/systemd \
                 -v /etc:/etc --label docker_bench_security \
                 docker/docker-bench-security; \
-		            echo "============================== SECURITY BENCHMARK CHECK IN SUCCESS ===============================\N"; \
+		echo "============================== SECURITY BENCHMARK CHECK IN SUCCESS ===============================\N"; \
                 break;; \
         [Nn]* ) exit;;
         * ) echo "Please answer yes or no.";;
