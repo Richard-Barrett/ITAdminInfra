@@ -30,9 +30,9 @@ while true; do
                 echo "===================================\n"; \
                 NODE_ADDRESS=$(docker info --format '{{.Swarm.NodeAddr}}'); \
                 # NUM_MANAGERS will be the current number of manager nodes in the cluster
-                NUM_MANAGERS=$(docker node ls --filter role=manager -q | wc -l)
+                NUM_MANAGERS=$(docker node ls --filter role=manager -q | wc -l); \
                 # VERSION will be your most recent version of the docker/ucp-auth image
-                VERSION=$(docker image ls --format '{{.Tag}}' docker/ucp-auth | head -n 1)
+                VERSION=$(docker image ls --format '{{.Tag}}' docker/ucp-auth | head -n 1); \
                 # This reconfigure-db command will repair the RethinkDB cluster to have a
                 # number of replicas equal to the number of manager nodes in the cluster.
                 docker run -v /var/run/docker/swarm/control.sock:/var/run/swarmd.sock \
