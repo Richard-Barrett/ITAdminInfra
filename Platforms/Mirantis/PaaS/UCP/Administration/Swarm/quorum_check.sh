@@ -38,7 +38,7 @@ while true; do
                 docker run -v /var/run/docker/swarm/control.sock:/var/run/swarmd.sock \
                 --entrypoint "./swarmctl" dperny/tasknuke task ls -a | grep SHUTDOWN \
                 | awk '{print $1}' | xargs -L 1 sh -c \
-                'docker run -v /var/run/docker/swarm/control.sock:/var/run/swarmd.sock dperny/tasknuke "$0"'
+                'docker run -v /var/run/docker/swarm/control.sock:/var/run/swarmd.sock dperny/tasknuke "$0"'; \
                 echo "===================================\n"; \
                 break;; \
         [Nn]* ) exit;;
