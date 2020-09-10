@@ -7,7 +7,7 @@
 set -e
 
 # System Variables 
-GWD=$(pwd)
+GWD=$(~/ITAdminInfra/Platforms/Mirantis/PaaS/UCP/Installation/)
 cat $GWD
 
 # Check Firewall Status 
