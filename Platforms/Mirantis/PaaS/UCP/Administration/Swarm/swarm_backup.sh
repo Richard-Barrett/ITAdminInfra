@@ -56,6 +56,9 @@ while true; do
                   # Zip backup /tmp/backup/swarm_backup_$(date +'%Y%-m%d')
                   which zip; \
                   zip -r /tmp/backup/swarm_backup_$(date +'%Y%-m%d').zip /tmp/backup/swarm_backup_$(date +'%Y%-m%d'); \
+                  # Remove Unzipped Contents
+                  sudp rm -rf /tmp/backup/swarm_backup_$(date +'%Y%-m%d'); \
+                  # Start Docker Services Locally 
                   sudo systemctl start docker.service; \
                 elif [ $ANS == remote]; \
                 then echo "Performing Remote Backup in /tmp/"; \
@@ -77,6 +80,8 @@ while true; do
                   # Zip backup /tmp/backup/swarm_backup_$(date +'%Y%-m%d'); \
                   which zip; \
                   zip -r /tmp/backup/swarm_backup_$(date +'%Y%-m%d').zip /tmp/backup/swarm_backup_$(date +'%Y%-m%d'); \
+                  # Remove Unzipped Contents
+                  sudp rm -rf /tmp/backup/swarm_backup_$(date +'%Y%-m%d'); \
                   # SCP -r $IP:/home/
                   scp -r /tmp/backup/swarm_backup_$(date +'%Y%-m%d') $USER@$IP:$DIR; \
                   # Start Docker.Service
