@@ -20,7 +20,7 @@
 set -e 
 
 # System Variables 
-MANAGERS=$(docker node ls -f "role=manager")
+# NEED TO DO
 
 # Check for auto-lock enabled 
 # If the swarm has auto-lock enabled, you need the unlock key to restore the swarm from backup. 
@@ -30,14 +30,14 @@ MANAGERS=$(docker node ls -f "role=manager")
 # Check for Docker Manager Nodes within the Cluster 
 echo "The Following is a list of Managers within your Cluster:"
 echo "=================================== LISTING MANAGERS ===================================\n"
-$MANAGERS 
+docker node ls -f "role=manager"
 echo "=================================== END LISTING MANAGERS ===============================\n"
 
 # Interactive Prompt for Local or Remote Storage
 echo "Would you like to perform a Local or Remote Backup (local/remote)?
 read ANS
 while true; do
-    read -p "Perform the backup for selection $ANS backup (yes/no)?" yn
+    read -p "Perform the $ANS backup (yes/no)?" yn
     case $yn in
         [Yy]* ) echo "===================================\n"; \
                 echo "        Peforming backup..."; \
@@ -45,7 +45,7 @@ while true; do
                 if [ $ANS == local]; \
                 then echo "Performing Local Backup in /tmp/"; \
                   # Quorum Check 
-                  $MANAGERS ; \
+                  docker node ls -f "role=manager" ; \
                   # Make Directory for backup in /tmp/ directory
                   sudo mkdir /tmp/backup; \
                   # Check if Auto-Lock is Enabled (OPTIONAL)
@@ -69,7 +69,7 @@ while true; do
                   echo "What is the directory you wish to store the backup (/home/)?"; \
                   read DIR; \
                   # Quorum Check
-                  $MANAGERS ; \
+                  docker node ls -f "role=manager" ; \
                   # Make Directory for backup in /tmp/ directory
                   sudo mkdir /tmp/backup; \
                   # Check if Auto-Lock is Enabled (OPTIONAL)
