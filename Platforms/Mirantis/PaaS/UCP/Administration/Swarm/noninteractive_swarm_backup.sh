@@ -31,10 +31,10 @@ MANAGERS=$(docker node ls -f "role=manager")
 # Check for Docker Manager Nodes within the Cluster 
 echo "The Following is a list of Managers within your Cluster:"
 echo "=================================== LISTING MANAGERS ===================================\n"
-#$MANAGERS 
+docker node ls -f "role=manager"
 echo "=================================== END LISTING MANAGERS ===============================\n"
 # Quorum Check 
-#$MANAGERS
+docker node ls -f "role=manager"
 # Make Directory for backup in /tmp/ directory
 sudo mkdir /tmp/backup
 # Check if Auto-Lock is Enabled (OPTIONAL)
@@ -46,6 +46,6 @@ sudo cp -R /var/lib/docker/swarm/ /tmp/backup/swarm_backup_$(date +'%Y%-m%d')
 which zip
 zip -r /tmp/backup/swarm_backup_$(date +'%Y%-m%d').zip /tmp/backup/swarm_backup_$(date +'%Y%-m%d')
 # Remove Unzipped Contents
-sudp rm -rf /tmp/backup/swarm_backup_$(date +'%Y%-m%d')
+sudo rm -rf /tmp/backup/swarm_backup_$(date +'%Y%-m%d')
 # Start Docker Services Locally 
 sudo systemctl start docker.service
