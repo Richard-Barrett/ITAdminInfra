@@ -43,15 +43,22 @@ while true; do
                 echo "        Peforming backup..."; \
                 echo "===================================\n"; \
                 if [ $ANS == local]; \
-                then echo "Performing Local Backup in /tmp/; \
+                then echo "Performing Local Backup in /tmp/"; \
                   # Quorum Check 
+                  $MANAGERS ; \
                   # Make Directory for backup in /tmp/ directory
-                  # Check if Auto-Lock is Enabled
+                  sudo mkdir /tmp/backup; \
+                  # Check if Auto-Lock is Enabled (OPTIONAL)
                   # Stop Docker on Local Manager Node for Local Backup
+                  sudo systemctl stop docker.service; \
                   # Store all Files in /tmp/backup/ as /tmp/backup/swarm_backup_$(date +'%Y%-m%d')
-                  # Gzip backup /tmp/backup/swarm_backup_$(date +'%Y%-m%d')
+                  sudo cp -R /var/lib/docker/swarm/ /tmp/backup/swarm_backup_$(date +'%Y%-m%d'); \
+                  # Zip backup /tmp/backup/swarm_backup_$(date +'%Y%-m%d')
+                  which zip; \
+                  zip -r /tmp/backup/swarm_backup_$(date +'%Y%-m%d').zip /tmp/backup/swarm_backup_$(date +'%Y%-m%d'); \
+                  sudo systemctl start docker.service; \
                 elif [ $ANS == remote]; \
-                then echo "Performing Remote Backup in /tmp/; \
+                then echo "Performing Remote Backup in /tmp/"; \
                   echo "What is the remote IP Address (XXX.XXX.XX.XX)?"; \
                   read IP; \
                   echo "What is username for the remote host (jdoe)?"; \
