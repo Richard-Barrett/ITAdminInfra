@@ -10,7 +10,9 @@
 # https://docs.docker.com/engine/swarm/admin_guide/#back-up-the-swarm
 # https://docs.docker.com/engine/reference/commandline/node_ls/
 # https://www.tutorialspoint.com/unix/if-else-statement.htm
-#https://unix.stackexchange.com/questions/232946/how-to-copy-all-files-from-a-directory-to-a-remote-directory-using-scp
+# https://unix.stackexchange.com/questions/232946/how-to-copy-all-files-from-a-directory-to-a-remote-directory-using-scp
+# https://docs.docker.com/engine/swarm/swarm_manager_locking/
+# https://docs.docker.com/engine/swarm/swarm_manager_locking/#unlock-a-swarm
 # ...
 # ======================================================================================================================
 set -e 
@@ -38,27 +40,31 @@ while true; do
         [Yy]* ) echo "===================================\n"; \
                 echo "        Peforming backup..."; \
                 echo "===================================\n"; \
-                if [ $ANS == local];
-                  then echo "Performing Local Backup in /tmp/; \
+                if [ $ANS == local]; \
+                then echo "Performing Local Backup in /tmp/; \
                   # Quorum Check 
                   # Make Directory for backup in /tmp/ directory
-                  # Checl if Auto-Lock is Enabled
+                  # Check if Auto-Lock is Enabled
                   # Stop Docker on Local Manager Node for Local Backup
                   # Store all Files in /tmp/backup/ as /tmp/backup/swarm_backup_$(date +'%Y%-m%d')
                   # Gzip backup /tmp/backup/swarm_backup_$(date +'%Y%-m%d')
                 elif [ $ANS == remote]; \
-                  then echo "Performing Remote Backup in /tmp/; \
+                then echo "Performing Remote Backup in /tmp/; \
                   echo "What is the remote IP Address (XXX.XXX.XX.XX)?"; \
                   read IP; \
                   echo "What is username for the remote host (jdoe)?"; \
-                  read USER
+                  read USER; \
                   echo "What is the directory you wish to store the backup (/home/)?"; \
-                  read DIR
-                  # Quorum Check 
+                  read DIR; \
+                  # Quorum Check
+                  $MANAGERS ; \
                   # Make Directory for backup in /tmp/ directory
-                  # Checl if Auto-Lock is Enabled
+                  sudo mkdir /tmp/backup 
+                  # Check if Auto-Lock is Enabled (OPTIONAL)
                   # Stop Docker on Local Manager Node for Local Backup
+                  sudo systemctl stop docker.service
                   # Store all Files in /tmp/backup/ as /tmp/backup/swarm_backup_$(date +'%Y%-m%d')
+                  sudo cp -R /var/lib/docker/swarm/ /tmp/backup/swarm_backup_$(date +'%Y%-m%d')
                   # Gzip backup /tmp/backup/swarm_backup_$(date +'%Y%-m%d')
                   # SCP -r $IP:/home/
                   scp -r /tmp/backup/swarm_backup_$(date +'%Y%-m%d') $USER@$IP:$DIR; \
