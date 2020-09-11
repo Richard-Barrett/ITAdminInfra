@@ -3,6 +3,7 @@
 # Created by: Richard Barrett
 # Date Created: 09/11/2020 
 # Purpose: Local or Remote Backup for Swarm 
+# Company: Mirantis
 # ===========================================
 
 # Official documentation
@@ -13,6 +14,7 @@
 # https://unix.stackexchange.com/questions/232946/how-to-copy-all-files-from-a-directory-to-a-remote-directory-using-scp
 # https://docs.docker.com/engine/swarm/swarm_manager_locking/
 # https://docs.docker.com/engine/swarm/swarm_manager_locking/#unlock-a-swarm
+# https://linux.die.net/man/1/zip
 # ...
 # ======================================================================================================================
 set -e 
@@ -59,15 +61,19 @@ while true; do
                   # Quorum Check
                   $MANAGERS ; \
                   # Make Directory for backup in /tmp/ directory
-                  sudo mkdir /tmp/backup 
+                  sudo mkdir /tmp/backup; \
                   # Check if Auto-Lock is Enabled (OPTIONAL)
                   # Stop Docker on Local Manager Node for Local Backup
-                  sudo systemctl stop docker.service
+                  sudo systemctl stop docker.service; \
                   # Store all Files in /tmp/backup/ as /tmp/backup/swarm_backup_$(date +'%Y%-m%d')
-                  sudo cp -R /var/lib/docker/swarm/ /tmp/backup/swarm_backup_$(date +'%Y%-m%d')
-                  # Gzip backup /tmp/backup/swarm_backup_$(date +'%Y%-m%d')
+                  sudo cp -R /var/lib/docker/swarm/ /tmp/backup/swarm_backup_$(date +'%Y%-m%d'); \
+                  # Zip backup /tmp/backup/swarm_backup_$(date +'%Y%-m%d'); \
+                  which zip; \
+                  zip -r /tmp/backup/swarm_backup_$(date +'%Y%-m%d').zip /tmp/backup/swarm_backup_$(date +'%Y%-m%d'); \
                   # SCP -r $IP:/home/
                   scp -r /tmp/backup/swarm_backup_$(date +'%Y%-m%d') $USER@$IP:$DIR; \
+                  # Start Docker.Service
+                  sudo systemctl start docker.service; \
                 fi; \
                 echo "===================================\n"; \
                 break;; \
