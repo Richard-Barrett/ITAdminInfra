@@ -1,4 +1,3 @@
-
 #!/bin/bash
 # ===========================================
 # Created by: Richard Barrett
