@@ -34,7 +34,7 @@ echo "=================================== LISTING MANAGERS =====================
 docker node ls -f "role=manager"
 echo "=================================== END LISTING MANAGERS ===============================\n"
 # Quorum Check 
-docker node ls -f "role=manager"
+# docker node ls -f "role=manager"
 # Make Directory for backup in /tmp/ directory
 sudo mkdir /tmp/backup
 # Check if Auto-Lock is Enabled (OPTIONAL)
