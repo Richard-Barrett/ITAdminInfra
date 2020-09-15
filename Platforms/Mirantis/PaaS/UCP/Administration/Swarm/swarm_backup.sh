@@ -29,9 +29,9 @@ set -e
 
 # Check for Docker Manager Nodes within the Cluster 
 echo "The Following is a list of Managers within your Cluster:"
-echo "=================================== LISTING MANAGERS ===================================\n"
+echo "=================================== LISTING MANAGERS ==================================="
 docker node ls -f "role=manager"
-echo "=================================== END LISTING MANAGERS ===============================\n"
+echo "=================================== END LISTING MANAGERS ==============================="
 
 # Interactive Prompt for Local or Remote Storage
 echo "Would you like to perform a Local or Remote Backup (local/remote)?
