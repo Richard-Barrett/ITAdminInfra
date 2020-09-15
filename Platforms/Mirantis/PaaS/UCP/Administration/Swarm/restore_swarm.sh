@@ -36,9 +36,9 @@ MANAGERS=$(docker node ls -f "role=manager")
 
 # Check for Docker Manager Nodes within the Cluster 
 echo "The Following is a list of Managers within your Cluster:"
-echo "=================================== LISTING MANAGERS ===================================\n"
+echo "=================================== LISTING MANAGERS ==================================="
 docker node ls -f "role=manager"
-echo "=================================== END LISTING MANAGERS ===============================\n"
+echo "=================================== END LISTING MANAGERS ==============================="
 
 # Check for Docker Installation
 # If No Installation Install Docker Dependencies
