@@ -1,13 +1,13 @@
 #!/bin/bash
 set -e
 
-echo "================================ CHECK FOR RETHINKDB+REPAIR "================================\n"
+echo "================================ CHECK FOR RETHINKDB+REPAIR "================================"
 while true; do
     read -p "Do you wish to check RethinkDB Cluster (yes/no)?" yn
     case $yn in
-        [Yy]* ) echo "==================================================\n"; \
+        [Yy]* ) echo "=================================================="; \
                 echo "Checking ReThinkDB for Configured Manager Nodes..."; \
-                echo "==================================================\n"; \
+                echo "=================================================="; \
                 NODE_ADDRESS=$(docker info --format '{{.Swarm.NodeAddr}}'); \
                 # NUM_MANAGERS will be the current number of manager nodes in the cluster
                 NUM_MANAGERS=$(docker node ls --filter role=manager -q | wc -l); \
@@ -17,7 +17,7 @@ while true; do
                 # number of replicas equal to the number of manager nodes in the cluster.
                 docker container run --rm -v ucp-auth-store-certs:/tls docker/ucp-auth:${VERSION} \
                 --db-addr=${NODE_ADDRESS}:12383 --debug reconfigure-db --num-replicas ${NUM_MANAGERS}; \
-                echo "==================================================\n"; \                
+                echo "=================================================="; \                
                 break;; \
         [Nn]* ) exit;;
         * ) echo "Please answer yes or no.";;
@@ -27,9 +27,9 @@ done
 while true; do
     read -p "Do you wish to perform emergency repair on RethinkDB Cluster (yes/no)?" yn
     case $yn in
-        [Yy]* ) echo "====================================================\n"; \
+        [Yy]* ) echo "===================================================="; \
                 echo "Repairing ReThinkDB Cluster with Emergency Repair..."; \
-                echo "====================================================\n"; \
+                echo "===================================================="; \
                 NODE_ADDRESS=$(docker info --format '{{.Swarm.NodeAddr}}'); \
                 # NUM_MANAGERS will be the current number of manager nodes in the cluster
                 NUM_MANAGERS=$(docker node ls --filter role=manager -q | wc -l); \
@@ -39,7 +39,7 @@ while true; do
                 # number of replicas equal to the number of manager nodes in the cluster.
                 docker container run --rm -v ucp-auth-store-certs:/tls docker/ucp-auth:${VERSION} \
                 --db-addr=${NODE_ADDRESS}:12383 --debug reconfigure-db --emrgency-repair; \
-                echo "====================================================\n"; \                
+                echo "===================================================="; \                
                 break;; \
         [Nn]* ) exit;;
         * ) echo "Please answer yes or no.";;
