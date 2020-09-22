@@ -28,9 +28,21 @@ trap 'last_command=$current_command; current_command=$BASH_COMMAND' DEBUG
 trap 'echo "\"${last_command}\" command filed with exit code $?."' EXIT
 
 # System Variables
-DOCKER_VERSION="docker version"
+DOCKER_VERSION="docker version | grep -w "Version" | head -n +1 | awk '{print $2}'"
+DOCKER_NETWORK_COMMAND="docker network create"
 DOCKER_INGRESS_NETWORK_OVERLAY="docker network ls | grep -i "overlay" | awk '{print $1}'"
 DOCKER_INGRESS_NETWORK_OVERLAY_BACKUP="docker network inspect $(docker network ls | grep -i "overlay" | awk '{print $1}') >> /tmp/backup/swarm_network_backup_$(date +'%Y%-^Cd').json"
+SWARMCTL_NETWORK_COMMAND="swarmctl network create"
+
+# Network Recreate Variables 
+NAME="cat /tmp/backup/ingress.json | jq ".[].Name" --raw-output"
+INTERNAL="cat /tmp/backup/ingress.json | jq ".[].Internal" --raw-output"
+ATTACHABLE="cat /tmp/backup/ingress.json | jq ".[].Attachable" --raw-output"
+IPV6="cat /tmp/backup/ingress.json | jq ".[].EnableIPv6" --raw-output"
+INGRESS="--ingress=true"
+IPAM="cat /tmp/backup/ingress.json | jq ".[].IPAM.Config[].Subnet" --raw-output"
+GATEWAY="cat /tmp/backup/ingress.json | jq ".[].IPAM.Config[].Gateway" --raw-output"
+SUBNET="cat /tmp/backup/ingress.json | jq ".[].IPAM.Config[].Subnet" --raw-output"
 
 # NETWORK_OVERLAY Check
 echo '========================'
@@ -54,3 +66,10 @@ if [[ ! -d /tmp/backup/ ]] ; then
     echo 'WARNING SWARM BACKUP DIRECTORY DOES NOT EXIST!'
     exit
 fi
+
+# Rebuild Docker Ingress Network
+if [[ $DOCKER_VERSION => 17.06 ]] ; then 
+    <rebuild_using_docker_network_create_command>
+elif [[ $DOCKER_VERSION =< 17.06 ]] ; then 
+    <rebuild_using_swarmctl_network_create_command>
+fi 
