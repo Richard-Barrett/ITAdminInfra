@@ -29,10 +29,10 @@ trap 'echo "\"${last_command}\" command filed with exit code $?."' EXIT
 
 # System Variables
 DOCKER_VERSION="docker version | grep -w "Version" | head -n +1 | awk '{print $2}'"
-DOCKER_NETWORK_COMMAND="docker network create"
+DOCKER_NETWORK_COMMAND="docker"
 DOCKER_INGRESS_NETWORK_OVERLAY="docker network ls | grep -i "overlay" | awk '{print $1}'"
 DOCKER_INGRESS_NETWORK_OVERLAY_BACKUP="docker network inspect $(docker network ls | grep -i "overlay" | awk '{print $1}') >> /tmp/backup/swarm_network_backup_$(date +'%Y%-^Cd').json"
-SWARMCTL_NETWORK_COMMAND="swarmctl network create"
+SWARMCTL_NETWORK_COMMAND="swarmctl"
 
 # Network Recreate Variables 
 NAME="cat /tmp/backup/ingress.json | jq ".[].Name" --raw-output"
@@ -58,7 +58,7 @@ echo '=================================================='
 # Look for Backup of The Swarm Directory on System 
 if [[ -d /tmp/backup/ ]] ; then
     echo 'SWARM BACKUP DIRECTORY EXISTS!'
-    echo 'PERFORMING BACK!'
+    echo 'PERFORMING BACKUP!'
     $DOCKER_INGRESS_NETWORK_OVERLAY_BACKUP
 fi
 if [[ ! -d /tmp/backup/ ]] ; then
@@ -69,7 +69,24 @@ fi
 
 # Rebuild Docker Ingress Network
 if [[ $DOCKER_VERSION => 17.06 ]] ; then 
-    <rebuild_using_docker_network_create_command>
+    echo "REMOVING INGRESS!"
+    sudo $DOCKER_NETWORK_COMMAND network rm ingress
+    echo "INGRESS REMOVED!"
+    echo "PARSING INGRESS JSON BACKUP"
+    echo "CREATING NEW INGRESS NETWORK WITH INGRESS TRUE PARAMTER"
+    sudo $DOCKER_NETWORK_COMMAND network create -d overlay $NAME $INGRESS \
+            --internal=$INTERNAL --attachable=$ATTACHABLE \
+            --ipv6=$IPV6 --ipam=$IPAM \
+            --gateway=$GATEWAY --subnet=$SUBNET
 elif [[ $DOCKER_VERSION =< 17.06 ]] ; then 
     <rebuild_using_swarmctl_network_create_command>
+        echo "REMOVING INGRESS!"
+    sudo $SWARMCTL_NETWORK_COMMAND network rm ingress
+    echo "INGRESS REMOVED!"
+    echo "PARSING INGRESS JSON BACKUP"
+    echo "CREATING NEW INGRESS NETWORK WITH INGRESS TRUE PARAMTER"
+    sudo $SWARMCTL_NETWORK_COMMAND network create -d overlay $NAME $INGRESS \
+            --internal=$INTERNAL --attachable=$ATTACHABLE \
+            --ipv6=$IPV6 --ipam=$IPAM \
+            --gateway=$GATEWAY --subnet=$SUBNET
 fi 
