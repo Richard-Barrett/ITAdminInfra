@@ -6,6 +6,9 @@
 
 # Set Current Directory Tree Dynamically
 $CWD = Get-Location | Select-Object -ExpandProperty Path
+echo "================================"
+echo "BEGINNING GENERAL TCP PORT CHECK
+echo "================================"
 
 # Check for Port Issues
 cat $CWD\tcp_ports.txt | 
