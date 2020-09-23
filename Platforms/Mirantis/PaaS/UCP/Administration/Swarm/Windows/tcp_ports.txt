@@ -1,5 +1,3 @@
-# To see the full list of requirements go to 
-# https://docs.mirantis.com/docker-enterprise/v3.1/dockeree-products/ucp/install-ucp.html#system-requirements
 179
 443
 2376
