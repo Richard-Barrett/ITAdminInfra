@@ -26,3 +26,14 @@ echo "===================================="
 echo "Checking ports blocked at ALL LEVELS"
 echo "===================================="
 netstat -ano | findstr -i SYN_SENT
+
+$Udpclient=new-Object system.Net.Sockets.Udpclient
+$Udpclient.client.ReceiveTimeout=20000
+$Udpclient.Connect('',) 
+$AsciiEncoder = new-object system.text.asciiencoding 
+$byte = $AsciiEncoder.GetBytes("Anybody there?") 
+$Udpclient.Send($byte,$byte.length) 
+$IPEndPoint = New-Object system.net.ipendpoint([system.net.ipaddress]::Any,0) 
+$ReceiveBytes = $Udpclient.Receive([ref]$IPEndPoint) 
+$AsciiEncoder.GetString($ReceiveBytes)
+$Udpclient.close()
