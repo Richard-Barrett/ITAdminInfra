@@ -26,7 +26,11 @@ echo "===================================="
 echo "Checking ports blocked at ALL LEVELS"
 echo "===================================="
 netstat -ano | findstr -i SYN_SENT
-netstat -nat 
+netstat -nat
+echo "===================================="
+echo "  Checking UDP Ports on Local Host  "
+echo "===================================="
+netstat -nat | Select-String UDP
 echo "===================================="
 echo "             END CHECK              "
 echo "===================================="
