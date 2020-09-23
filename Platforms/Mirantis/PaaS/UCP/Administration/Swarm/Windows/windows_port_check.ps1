@@ -12,7 +12,11 @@ echo "================================"
 
 # Check for Port Issues
 cat $CWD\tcp_ports.txt | 
-ForEach-Object { if (-not($_ -like '#*')) {Test-NetConnection -ComputerName $ENV:ComputerName -Port $_ }}
+ForEach-Object { if (-not($_ -like '#*')) {Test-NetConnection -ComputerName $ENV:ComputerName -Port $_ } ; |
+                  echo "==========================================" ; |
+                  echo "BEGINNING GENERAL TCP $(cat $_) PORT CHECK" ; |
+                  echo "==========================================" ; |
+}
 
 # Check for Blocked UDP/TCP Ports at ALL Levels 
 echo "===================================="
