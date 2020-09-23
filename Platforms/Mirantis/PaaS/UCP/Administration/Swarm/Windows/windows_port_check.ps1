@@ -9,14 +9,14 @@ $CWD = Get-Location | Select-Object -ExpandProperty Path
 echo "================================"
 echo "BEGINNING GENERAL TCP PORT CHECK"
 echo "================================"
-echo "...BEGINING CHECK"
+echo "...BEGINNING CHECK"
 
 # Check for Port Issues
 cat $CWD\tcp_ports.txt | ForEach-Object {
     if (-not($_ -like '#*')) {
-      echo "==========================================" ;
-      echo "BEGINNING GENERAL TCP PORT $_ CHECK" ;
-      echo "==========================================" ;
+      echo "====================================================================================" ;
+      echo "                      BEGINNING GENERAL TCP PORT $_ CHECK" ;
+      echo "====================================================================================" ;
       Test-NetConnection -ComputerName $ENV:ComputerName -Port $_ 
     }
 }
