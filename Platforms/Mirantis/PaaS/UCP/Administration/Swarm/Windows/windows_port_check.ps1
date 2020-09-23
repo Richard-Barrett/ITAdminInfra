@@ -14,7 +14,7 @@ echo "================================"
 cat $CWD\tcp_ports.txt | 
 ForEach-Object { if (-not($_ -like '#*')) {Test-NetConnection -ComputerName $ENV:ComputerName -Port $_ } ; 
                   echo "==========================================" ; 
-                  echo "BEGINNING GENERAL TCP $(cat $_) PORT CHECK" ; 
+                  echo "BEGINNING GENERAL TCP PORT CHECK" ; 
                   echo "==========================================" ; 
 }
 
