@@ -15,7 +15,7 @@ echo "...BEGINNING CHECK"
 cat $CWD\tcp_ports.txt | ForEach-Object {
     if (-not($_ -like '#*')) {
       echo "====================================================================================" ;
-      echo "                      BEGINNING GENERAL TCP PORT $_ CHECK" ;
+      echo "                      BEGINNING GENERAL TCP PORT $_ CHECK                           " ;
       echo "====================================================================================" ;
       Test-NetConnection -ComputerName $ENV:ComputerName -Port $_ 
     }
@@ -26,3 +26,7 @@ echo "===================================="
 echo "Checking ports blocked at ALL LEVELS"
 echo "===================================="
 netstat -ano | findstr -i SYN_SENT
+netstat -nat 
+echo "===================================="
+echo "             END CHECK              "
+echo "===================================="
