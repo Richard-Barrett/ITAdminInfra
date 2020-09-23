@@ -15,6 +15,7 @@ cat $CWD\tcp_ports.txt |
 ForEach-Object { if (-not($_ -like '#*')) {Test-NetConnection -ComputerName $ENV:ComputerName -Port $_ }}
 
 # Check for Blocked UDP/TCP Ports at ALL Levels 
+echo "===================================="
 echo "Checking ports blocked at ALL LEVELS"
 echo "===================================="
 netstat -ano | findstr -i SYN_SENT
