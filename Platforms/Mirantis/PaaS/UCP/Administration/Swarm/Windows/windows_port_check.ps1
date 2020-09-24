@@ -30,7 +30,7 @@ netstat -nat
 echo "===================================="
 echo "  Checking UDP Ports on Local Host  "
 echo "===================================="
-netstat -nat | Select-String UDP | fl Line
+netstat -nat | Select-String UDP | Format-Wide -Property Line -Autosize
 echo "===================================="
 echo "             END CHECK              "
 echo "===================================="
