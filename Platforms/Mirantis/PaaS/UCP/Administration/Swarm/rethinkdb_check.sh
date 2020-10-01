@@ -1,5 +1,23 @@
 #!/bin/bash
+# ===========================================
+# Created by: Richard Barrett
+# Date Created: 09/11/2020 
+# Purpose: Local or Remote Backup for Swarm 
+# Company: Mirantis
+# ===========================================
+
+# Official documentation
+# ======================================================================================================================
+# https://docs.mirantis.com/docker-enterprise/v3.1/dockeree-products/ucp/ucp-monitor-and-troubleshoot.html
+# ...
+# ======================================================================================================================
 set -e
+
+# keep track of the last executed command
+trap 'last_command=$current_command; current_command=$BASH_COMMAND' DEBUG
+
+# echo an error message before exiting
+trap 'echo "\"${last_command}\" command filed with exit code $?."' EXIT
 
 echo "================================ CHECK FOR RETHINKDB+REPAIR "================================"
 while true; do
