@@ -39,9 +39,9 @@ read ANS
 while true; do
     read -p "Perform the $ANS backup (yes/no)?" yn
     case $yn in
-        [Yy]* ) echo "===================================\n"; \
+        [Yy]* ) echo "==================================="; \
                 echo "        Peforming backup..."; \
-                echo "===================================\n"; \
+                echo "==================================="; \
                 if [ $ANS == local]; \
                 then echo "Performing Local Backup in /tmp/"; \
                   # Quorum Check 
@@ -87,7 +87,7 @@ while true; do
                   # Start Docker.Service
                   sudo systemctl start docker.service; \
                 fi; \
-                echo "===================================\n"; \
+                echo "==================================="; \
                 break;; \
         [Nn]* ) exit;;
         * ) echo "Please answer yes or no.";;
