@@ -47,12 +47,21 @@ sudo tree /srv/salt/reclass -J | gzip > /tmp/$(sudo ls /srv/salt/reclass/classes
 # Get Salt Information
 
 # Get Openstack Component Information
+sudo salt "*ctl01*" cmd.exec_code bash "source keystonercv3 && openstack server list --all-projects -f json" | gzip > openstack_servers_$(date +'%Y%-m%d').json.gz
+
+
 # Get Openstack Version
 # Check for Openstack Related Errors
 
 # Check for System Related Errors
 # Get Service Information
 
-
-
+# Git Log
+sudo git --git-dir=/srv/salt/reclass/.git log --pretty=format:"%h%x09%an%x09%ad%x09%s" | gzip > git_$(date +'%Y%-m%d').log.gz
+sudo git --git-dir=/srv/salt/reclass/.git log --pretty=format:'{%n  "commit": "%H",%n  "abbreviated_commit": "%h",%n  "tree": "%T", \
+%n  "abbreviated_tree": "%t",%n  "parent": "%P",%n  "abbreviated_parent": "%p",%n  "refs": "%D",%n  "encoding": "%e",%n  "subject": "%s", \
+%n  "sanitized_subject_line": "%f",%n  "body": "%b",%n  "commit_notes": "%N",%n  "verification_flag": "%G?",%n  "signer": "%GS", \
+%n  "signer_key": "%GK",%n  "author": {%n    "name": "%aN",%n    "email": "%aE",%n    "date": "%aD"%n  },%n  "commiter": {%n    "name": "%cN", \
+%n    "email": "%cE",%n    "date": "%cD"%n  }%n},' | gzip > git_log_$(date +'%Y%-m%d').json.gz
+sudo git --git-dir=/srv/salt/reclass/.git --work-tree=/srv/salt/reclass/ status | gzip > git_status_$(date +'%Y%-m%d').gz
 
