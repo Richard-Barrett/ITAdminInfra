@@ -8,6 +8,8 @@
 
 # Official documentation
 # ======================================================================================================================
+https://docs.saltstack.com/en/latest/ref/modules/all/salt.modules.status.html
+https://sites.google.com/site/mrxpalmeiras/saltstack/salt-cheat-sheet?tmpl=%2Fsystem%2Fapp%2Ftemplates%2Fprint%2F&showPrintDialog=1#TOC-SERVER-DIAGNOSTICS
 # ...
 # ======================================================================================================================
 set -e 
@@ -41,20 +43,60 @@ mkdir /tmp/$(sudo ls /srv/salt/reclass/classes/cluster/)_mcpinfo_$(date +'%Y%-m%
 sudo tree /srv/salt/reclass -J | gzip > /tmp/$(sudo ls /srv/salt/reclass/classes/cluster/)_mcpinfo_$(date +'%Y%-m%d')/$(sudo ls /srv/salt/reclass/classes/cluster/)_cluster/topology/reclass_topology_$(date +'%Y%-m%d').json.gz
 
 # Get Nodes
+sudo cat /etc/hosts
+
 # Test-Ping Nodes
-# Get Node DMIDecode Information
+sudo salt "*" test.ping --out=json
+
+# Get Cluster Info by Node Information
+sudo salt '*' status.cpuinfo --out=json
+sudo salt '*' status.cpustats --out=json
+sudo salt '*' status.meminfo --out=json
+sudo salt '*' status.diskusage --out=json
+sudo salt '*' status.diskstats --out=json
+sudo salt '*' status.loadavg --out=json
+sudo salt '*' status.netdev --out=json
+sudo salt '*' status.netstats --out=json
+sudo salt '*' status.nproc --out=json
+sudo salt '*' status.procs --out=json
+sudo salt '*' status.uptime --out=json
+sudo salt '*' status.vmstats --out=json
+sudo salt '*' status.w --out=json
+sudo salt "*" network.interfaces --out=json
+
+# Get Cluster Service & Node Information
+sudo salt "*" service.get_all --out=json
+
 # Get Node Package Information
+sudo salt '*' status.version --out=json
+sudo salt "*" pkg.list_pkgs --out=json
+sudo salt "*" pkg.list_upgrades --out=json
+
 # Get Salt Information
+sudo salt-run jobs.active --out=json
+sudo salt-run jobs.list_jobs --out=json
 
 # Get Openstack Component Information
-sudo salt "*ctl01*" cmd.exec_code bash "source keystonercv3 && openstack server list --all-projects -f json" | gzip > openstack_servers_$(date +'%Y%-m%d').json.gz
+sudo salt "*ctl01*" cmd.exec_code bash "source keystonercv3 && openstack server list --all-projects -f json" | gzip > /tmp/$(sudo ls /srv/salt/reclass/classes/cluster/)_mcpinfo_$(date +'%Y%-m%d')/$(sudo ls /srv/salt/reclass/classes/cluster/)_logs/openstack/openstack_servers_list_$(date +'%Y%-m%d').json.gz
+sudo salt "*ctl01*" cmd.exec_code bash "source keystonercv3 && openstack hypervisor list -f json" | gzip > /tmp/$(sudo ls /srv/salt/reclass/classes/cluster/)_mcpinfo_$(date +'%Y%-m%d')/$(sudo ls /srv/salt/reclass/classes/cluster/)_logs/openstack/openstack_hypervisor_list_$(date +'%Y%-m%d').json.gz
+sudo salt "*ctl01*" cmd.exec_code bash "source keystonercv3 && openstack endpoint list -f json" | gzip > /tmp/$(sudo ls /srv/salt/reclass/classes/cluster/)_mcpinfo_$(date +'%Y%-m%d')/$(sudo ls /srv/salt/reclass/classes/cluster/)_logs/openstack/openstack_endpoint_list_$(date +'%Y%-m%d').json.gz
+sudo salt "*ctl01*" cmd.exec_code bash "source keystonercv3 && openstack compute service list --long -f json"
+sudo salt "*ctl01*" cmd.exec_code bash "source keystonercv3 && openstack network agent list --long -f json"
 
+sudo salt "*ctl01*" cmd.exec_code bash "source keystonercv3 && openstack image list --long -f json"
+sudo salt "*ctl01*" cmd.exec_code bash "source keystonercv3 && openstack flavor list --long -f json"
+sudo salt "*ctl01*" cmd.exec_code bash "source keystonercv3 && openstack catalog list -f json"
+sudo salt "*ctl01*" cmd.exec_code bash "source keystonercv3 && openstack project list -f json"
+
+sudo salt "*ctl01*" cmd.exec_code bash "source keystonercv3 && openstack network list -f json"
+sudo salt "*ctl01*" cmd.exec_code bash "source keystonercv3 && openstack subnet list -f json"
+sudo salt "*ctl01*" cmd.exec_code bash "source keystonercv3 && openstack floating ip list -f json"
+sudo salt "*ctl01*" cmd.exec_code bash "source keystonercv3 && openstack loadbalancer list -f json"-0\0
+sudo salt "*ctl01*" cmd.exec_code bash "source keystonercv3 && openstack user list -f json"
+sudo salt "*ctl01*" cmd.exec_code bash "source keystonercv3 && openstack region list -f json"
 
 # Get Openstack Version
-# Check for Openstack Related Errors
-
-# Check for System Related Errors
-# Get Service Information
+sudo salt "*ctl01*" cmd.run "openstack --version" --out=json
 
 # Git Log
 sudo git --git-dir=/srv/salt/reclass/.git log --pretty=format:"%h%x09%an%x09%ad%x09%s" | gzip > git_$(date +'%Y%-m%d').log.gz
