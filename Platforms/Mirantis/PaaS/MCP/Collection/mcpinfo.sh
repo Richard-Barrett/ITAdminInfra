@@ -1,9 +1,9 @@
 #!/bin/bash
 # ======================================================
 # Author: Richard Barrett
-# Date Created: 03/14/2020
+# Date Created: 10/20/2020
 # Organization: Mirantis
-# Purpose: Initialize Manual Logrotate on Openstack Logs
+# Purpose: Initialize MCPInformation and SOSReport Coll.
 # ======================================================
 
 # Official documentation
