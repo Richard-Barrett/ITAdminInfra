@@ -40,6 +40,29 @@ SUPPORT_DUMP_DIR="/tmp/$(sudo ls /srv/salt/reclass/classes/cluster/)_mcpinfo/sup
 SOSREPORT_AVAILABILITY="sudo grep -i 'sosreport' $RECLASS_CLUSTER_DIR/infra/init.yml"
 SOSREPORT_TARGET_FILE="$RECLASS_CLUSTER_DIR/infra/init.yml"
 
+# Support Dump Sub-Directories
+# ============================
+OPENSTACK_DIR="/tmp/$(sudo ls /srv/salt/reclass/classes/cluster/)_mcpinfo/support_dump_mcpinfo_$(date +'%Y%-m%d')/openstack"
+NODES_DIR="/tmp/$(sudo ls /srv/salt/reclass/classes/cluster/)_mcpinfo/support_dump_mcpinfo_$(date +'%Y%-m%d')/nodes"
+
+# Nodes Sub-Directories
+# =====================
+CTL_NODES_DIR="/tmp/$(sudo ls /srv/salt/reclass/classes/cluster/)_mcpinfo/support_dump_mcpinfo_$(date +'%Y%-m%d')/nodes/ctl_nodes"
+CMP_NODES_DIR="/tmp/$(sudo ls /srv/salt/reclass/classes/cluster/)_mcpinfo/support_dump_mcpinfo_$(date +'%Y%-m%d')/nodes/cmp_nodes"
+OSD_NODES_DIR="/tmp/$(sudo ls /srv/salt/reclass/classes/cluster/)_mcpinfo/support_dump_mcpinfo_$(date +'%Y%-m%d')/nodes/osd_nodes"
+KVM_NODES_DIR="/tmp/$(sudo ls /srv/salt/reclass/classes/cluster/)_mcpinfo/support_dump_mcpinfo_$(date +'%Y%-m%d')/nodes/kvm_nodes"
+BMT_NODES_DIR="/tmp/$(sudo ls /srv/salt/reclass/classes/cluster/)_mcpinfo/support_dump_mcpinfo_$(date +'%Y%-m%d')/nodes/bmt_nodes"
+PRX_NODES_DIR="/tmp/$(sudo ls /srv/salt/reclass/classes/cluster/)_mcpinfo/support_dump_mcpinfo_$(date +'%Y%-m%d')/nodes/proxy_nodes"
+LOG_NODES_DIR="/tmp/$(sudo ls /srv/salt/reclass/classes/cluster/)_mcpinfo/support_dump_mcpinfo_$(date +'%Y%-m%d')/nodes/log_nodes"
+RGW_NODES_DIR="/tmp/$(sudo ls /srv/salt/reclass/classes/cluster/)_mcpinfo/support_dump_mcpinfo_$(date +'%Y%-m%d')/nodes/rgw_nodes"
+MSG_NODES_DIR="/tmp/$(sudo ls /srv/salt/reclass/classes/cluster/)_mcpinfo/support_dump_mcpinfo_$(date +'%Y%-m%d')/nodes/msg_nodes"
+NAL_NODES_DIR="/tmp/$(sudo ls /srv/salt/reclass/classes/cluster/)_mcpinfo/support_dump_mcpinfo_$(date +'%Y%-m%d')/nodes/nal_nodes"
+CMN_NODES_DIR="/tmp/$(sudo ls /srv/salt/reclass/classes/cluster/)_mcpinfo/support_dump_mcpinfo_$(date +'%Y%-m%d')/nodes/cmn_nodes"
+MDB_NODES_DIR="/tmp/$(sudo ls /srv/salt/reclass/classes/cluster/)_mcpinfo/support_dump_mcpinfo_$(date +'%Y%-m%d')/nodes/mdb_nodes"
+GTW_NODES_DIR="/tmp/$(sudo ls /srv/salt/reclass/classes/cluster/)_mcpinfo/support_dump_mcpinfo_$(date +'%Y%-m%d')/nodes/gtw_nodes"
+NTW_NODES_DIR="/tmp/$(sudo ls /srv/salt/reclass/classes/cluster/)_mcpinfo/support_dump_mcpinfo_$(date +'%Y%-m%d')/nodes/ntw_nodes"
+DBS_NODES_DIR="/tmp/$(sudo ls /srv/salt/reclass/classes/cluster/)_mcpinfo/support_dump_mcpinfo_$(date +'%Y%-m%d')/nodes/dbs_nodes"
+
 echo "==========================================================="
 echo "  Starting Support Dump for Cloud Names $CLUSTER_NAME..."
 echo "==========================================================="
