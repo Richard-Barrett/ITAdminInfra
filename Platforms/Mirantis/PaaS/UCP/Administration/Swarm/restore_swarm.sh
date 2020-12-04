@@ -2,7 +2,7 @@
 # ===========================================
 # Created by: Richard Barrett
 # Date Created: 09/11/2020 
-# Purpose: Local or Remote Backup for Swarm 
+# Purpose: Local or Remote Restore for Swarm 
 # Company: Mirantis
 # ===========================================
 
