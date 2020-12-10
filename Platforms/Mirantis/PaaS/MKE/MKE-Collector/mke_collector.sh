@@ -34,13 +34,15 @@ MANAGERS=$(docker node ls -f "role=manager")
 REPOSITORY_TAG=$(docker image ls --format '{{.Repository}}'| awk -F "/" '{print $1}'| sort -u | grep -v "calico")
 MKE_CLUSTER_DIR="/tmp/mke_cluster/"
 MKE_SUPPORT_DUMP_DIR="/tmp/mke_cluster/support_dump"
-UCP_VERSION=$((docker container inspect ucp-proxy --format '{{index .Config.Labels "com.docker.ucp.version"}}' 2>/dev/null || echo -n 3.2.6)|tr -d [[:space:]])
+MKE_UCP_VERSION=$((docker container inspect ucp-proxy --format '{{index .Config.Labels "com.docker.ucp.version"}}' 2>/dev/null || echo -n 3.2.6)|tr -d [[:space:]])
+REQUEST_URL="https://rbarrett-rbarrett-test-rbarrett-ucp-1-ucpleader.train.mirantis.com"
+AUTHTOKEN=$(curl -sk -d '{"username":"admin","password":"dockeradmin"}' ${UCPURL}/auth/login | jq -r .auth_token)
 
 echo "============================================================="
 echo "  Starting Backup for MKE/UCP Cluster Version $UCP_VERSION..."
 echo "============================================================="
 
-echo "MKE/UCP Version is $UCP_VERSION..."
+echo "MKE/UCP Version is $MKE_UCP_VERSION..."
 echo "Using Repsitory Tag $REPOSITORY_TAG..."
 # Make Directories in $MKE_CLUSTER_DIR
 if [ -d "$MKE_CLUSTER_DIR" ]; then
@@ -61,11 +63,18 @@ else
     fi
 fi
 
-docker container run --rm \
---name ucp \
--v /var/run/docker.sock:/var/run/docker.sock \
---log-driver none \
-$(echo $REPOSITORY_TAG)/ucp:${UCP_VERSION} \
-support > \
-$MKE_SUPPORT_DUMP_DIR/docker-support-${HOSTNAME}-$(date +%Y%m%d-%H_%M_%S).tgz
+AUTHTOKEN=$(curl -sk -d '{"username":"$USERNAME","password":"$PASSWORD"}' ${REQUEST_URL}/auth/login | jq -r .auth_token)
+curl -k -X POST "${REQUEST_URL}/api/support" -H 'Accept-encoding: gzip' -H  "accept: application/json" -H "Authorization: Bearer $AUTHTOKEN" \
+-o $MKE_SUPPORT_DUMP_DIR/docker-support-${HOSTNAME}-$(date +%Y%m%d-%H_%M_%S)_support.zip
+
+#docker container run --rm \
+#--name ucp \
+#-v /var/run/docker.sock:/var/run/docker.sock \
+#--log-driver none \
+#$(echo $REPOSITORY_TAG)/ucp:${MKE_UCP_VERSION} \
+#support > \
+#$MKE_SUPPORT_DUMP_DIR/docker-support-${HOSTNAME}-$(date +%Y%m%d-%H_%M_%S).tgz
 echo "Support Dump Collected..."
+echo "============================================================="
+echo "  Ending Backup for MKE/UCP Cluster Version $MKE-UCP_VERSION..."
+echo "============================================================="
