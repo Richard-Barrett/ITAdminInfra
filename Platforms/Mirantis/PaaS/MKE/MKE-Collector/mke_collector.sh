@@ -74,6 +74,7 @@ curl -k -X POST "${REQUEST_URL}/api/support" -H 'Accept-encoding: gzip' -H  "acc
 #$(echo $REPOSITORY_TAG)/ucp:${MKE_UCP_VERSION} \
 #support > \
 #$MKE_SUPPORT_DUMP_DIR/docker-support-${HOSTNAME}-$(date +%Y%m%d-%H_%M_%S).tgz
+
 echo "Support Dump Collected..."
 echo "============================================================="
 echo "  Ending Backup for MKE/UCP Cluster Version $MKE-UCP_VERSION..."
