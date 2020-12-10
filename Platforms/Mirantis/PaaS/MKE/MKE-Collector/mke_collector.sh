@@ -1,23 +1,10 @@
 #!/bin/bash
 # ============================================
 # Created by: Richard Barrett
-# Date Created: 09/11/2020
+# Date Created: 11/11/2020
 # Purpose: MKE Auto Collector for Support Dump
 # Company: Mirantis
 # ============================================
-
-# Official documentation
-# ======================================================================================================================
-# https://docs.docker.com/engine/swarm/admin_guide/#back-up-the-swarm
-# https://docs.docker.com/engine/reference/commandline/node_ls/
-# https://www.tutorialspoint.com/unix/if-else-statement.htm
-# https://unix.stackexchange.com/questions/232946/how-to-copy-all-files-from-a-directory-to-a-remote-directory-using-scp
-# https://docs.docker.com/engine/swarm/swarm_manager_locking/
-# https://docs.docker.com/engine/swarm/swarm_manager_locking/#unlock-a-swarm
-# https://linux.die.net/man/1/zip
-# https://medium.com/@raghavendar_d/backup-restore-docker-swarm-f6a77bd95681
-# ...
-# ======================================================================================================================
 #set -e
 
 # keep track of the last executed command
@@ -29,19 +16,18 @@ trap 'echo "\"${last_command}\" command filed with exit code $?."' EXIT
 # System Variables
 # ================
 DATE="$(date +'%Y%-m%d')"
-#CLUSTER_NAME="$(sudo ls /srv/salt/reclass/classes/cluster/)"
-MANAGERS=$(docker node ls -f "role=manager")
 REPOSITORY_TAG=$(docker image ls --format '{{.Repository}}'| awk -F "/" '{print $1}'| sort -u | grep -v "calico")
 MKE_CLUSTER_DIR="/tmp/mke_cluster/"
 MKE_SUPPORT_DUMP_DIR="/tmp/mke_cluster/support_dump"
 MKE_UCP_VERSION=$((docker container inspect ucp-proxy --format '{{index .Config.Labels "com.docker.ucp.version"}}' 2>/dev/null || echo -n 3.2.6)|tr -d [[:space:]])
-REQUEST_URL="https://rbarrett-rbarrett-test-rbarrett-ucp-1-ucpleader.train.mirantis.com"
-AUTHTOKEN=$(curl -sk -d '{"username":"admin","password":"dockeradmin"}' ${UCPURL}/auth/login | jq -r .auth_token)
+REQUEST_URL="https://127.0.0.1"
+USERNAME="admin"
+PASSWORD="dockeradmin"
+AUTHTOKEN=$(curl -sk -d '{"username":"$USERNAME","password":"$PASSWORD"}' ${REQUEST_URL}/auth/login | jq -r .auth_token)
 
 echo "============================================================="
 echo "  Starting Backup for MKE/UCP Cluster Version $UCP_VERSION..."
 echo "============================================================="
-
 echo "MKE/UCP Version is $MKE_UCP_VERSION..."
 echo "Using Repsitory Tag $REPOSITORY_TAG..."
 # Make Directories in $MKE_CLUSTER_DIR
@@ -66,6 +52,10 @@ fi
 AUTHTOKEN=$(curl -sk -d '{"username":"$USERNAME","password":"$PASSWORD"}' ${REQUEST_URL}/auth/login | jq -r .auth_token)
 curl -k -X POST "${REQUEST_URL}/api/support" -H 'Accept-encoding: gzip' -H  "accept: application/json" -H "Authorization: Bearer $AUTHTOKEN" \
 -o $MKE_SUPPORT_DUMP_DIR/docker-support-${HOSTNAME}-$(date +%Y%m%d-%H_%M_%S)_support.zip
+echo "Support Dump Collected..."
+echo "============================================================="
+echo "  Ending Backup for MKE/UCP Cluster Version $UCP_VERSION..."
+echo "============================================================="
 
 #docker container run --rm \
 #--name ucp \
@@ -74,8 +64,3 @@ curl -k -X POST "${REQUEST_URL}/api/support" -H 'Accept-encoding: gzip' -H  "acc
 #$(echo $REPOSITORY_TAG)/ucp:${MKE_UCP_VERSION} \
 #support > \
 #$MKE_SUPPORT_DUMP_DIR/docker-support-${HOSTNAME}-$(date +%Y%m%d-%H_%M_%S).tgz
-
-echo "Support Dump Collected..."
-echo "============================================================="
-echo "  Ending Backup for MKE/UCP Cluster Version $MKE-UCP_VERSION..."
-echo "============================================================="
