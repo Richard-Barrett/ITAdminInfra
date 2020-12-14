@@ -23,7 +23,6 @@ trap 'last_command=$current_command; current_command=$BASH_COMMAND' DEBUG
 # System Variables
 # ================
 DATE="$(date +'%Y%-m%d')"
-CLUSTER_NAME="$(sudo ls /srv/salt/reclass/classes/cluster/)"
 MANAGERS=$(docker node ls -f "role=manager")
 REPOSITORY_TAG=$(docker image ls --format '{{.Repository}}'| awk -F "/" '{print $1}'| sort -u | grep -v "calico")
 MKE_CLUSTER_DIR="/tmp/mke_cluster/"
