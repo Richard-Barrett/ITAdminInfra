@@ -66,6 +66,7 @@ MDB_NODES_DIR="/tmp/$(sudo ls /srv/salt/reclass/classes/cluster/)_mcpinfo/suppor
 GTW_NODES_DIR="/tmp/$(sudo ls /srv/salt/reclass/classes/cluster/)_mcpinfo/support_dump_mcpinfo_$(date +'%Y%-m%d')/nodes/gtw_nodes"
 NTW_NODES_DIR="/tmp/$(sudo ls /srv/salt/reclass/classes/cluster/)_mcpinfo/support_dump_mcpinfo_$(date +'%Y%-m%d')/nodes/ntw_nodes"
 DBS_NODES_DIR="/tmp/$(sudo ls /srv/salt/reclass/classes/cluster/)_mcpinfo/support_dump_mcpinfo_$(date +'%Y%-m%d')/nodes/dbs_nodes"
+MON_NODES_DIR="/tmp/$(sudo ls /srv/salt/reclass/classes/cluster/)_mcpinfo/support_dump_mcpinfo_$(date +'%Y%-m%d')/nodes/mon_nodes"
 
 echo "==========================================================="
 echo "  Starting Support Dump for Cloud Names $CLUSTER_NAME..."
@@ -87,7 +88,7 @@ if [ -d "$MCP_INFO_DIR" ]; then
     mkdir $CTL_NODES_DIR $CMP_NODES_DIR $OSD_NODES_DIR $KVM_NODES_DIR
     mkdir $BMT_NODES_DIR $PRX_NODES_DIR $LOG_NODES_DIR $RGW_NODES_DIR
     mkdir $MSG_NODES_DIR $NAL_NODES_DIR $CMN_NODES_DIR $MDB_NODES_DIR
-    mkdir $GTW_NODES_DIR $NTW_NODES_DIR $DBS_NODES_DIR
+    mkdir $GTW_NODES_DIR $NTW_NODES_DIR $DBS_NODES_DIR $MON_NODES_DIR
   fi
   # Check for SOSReport Availability
   #if [
@@ -107,7 +108,7 @@ else
     mkdir $CTL_NODES_DIR $CMP_NODES_DIR $OSD_NODES_DIR $KVM_NODES_DIR
     mkdir $BMT_NODES_DIR $PRX_NODES_DIR $LOG_NODES_DIR $RGW_NODES_DIR
     mkdir $MSG_NODES_DIR $NAL_NODES_DIR $CMN_NODES_DIR $MDB_NODES_DIR
-    mkdir $GTW_NODES_DIR $NTW_NODES_DIR $DBS_NODES_DIR
+    mkdir $GTW_NODES_DIR $NTW_NODES_DIR $DBS_NODES_DIR $MON_NODES_DIR
   fi
   # Check for SOSReport Availability 
   #if [  
@@ -145,8 +146,66 @@ sudo jq -R -s 'split("\n")' /etc/hosts > $SUPPORT_DUMP_DIR/$(echo $CLUSTER_NAME)
 # Test-Ping Nodes
 sudo salt "*" test.ping --out=json > $SUPPORT_DUMP_DIR/$(echo $CLUSTER_NAME)_mcpinfo_$(date +'%Y%-m%d')_test_ping.json
 
-echo "Getting Salt Cluster Information..."
+# Collecting Errors Across ctl* Nodes
+echo "Getting Errors on ctl* Nodes..."
+sudo salt "*ctl01*" cmd.run "sudo grep -Eir 'ERROR' /var/log/ -R" > $CTL_NODES_DIR/ctl01_errors.log
+sudo salt "*ctl02*" cmd.run "sudo grep -Eir 'ERROR' /var/log/ -R" > $CTL_NODES_DIR/ctl02_errors.log
+sudo salt "*ctl03*" cmd.run "sudo grep -Eir 'ERROR' /var/log/ -R" > $CTL_NODES_DIR/ctl03_errors.log
+
+# Collection Warnings Across ctl* Nodes
+echo "Getting Warnings on ctl* Nodes..."
+sudo salt "*ctl01*" cmd.run "sudo grep -Eir 'WARNING' /var/log/ -R" > $CTL_NODES_DIR/ctl01_warnings.log
+sudo salt "*ctl02*" cmd.run "sudo grep -Eir 'WARNING' /var/log/ -R" > $CTL_NODES_DIR/ctl02_warnings.log
+sudo salt "*ctl03*" cmd.run "sudo grep -Eir 'WARNING' /var/log/ -R" > $CTL_NODES_DIR/ctl03_warnings.log
+
+# Collecting Errors on msg* nodes
+echo "Getting Errors on msg* Nodes..."
+sudo salt "*msg01*" cmd.run "sudo grep -Eir 'ERROR' /var/log/ -R" > $MSG_NODES_DIR/msg01_errors.log
+sudo salt "*msg02*" cmd.run "sudo grep -Eir 'ERROR' /var/log/ -R" > $MSG_NODES_DIR/msg02_errors.log
+sudo salt "*msg03*" cmd.run "sudo grep -Eir 'ERROR' /var/log/ -R" > $MSG_NODES_DIR/msg03_errors.log
+
+# Collecting Warnings on msg* nodes
+echo "Getting Warningss on msg* Nodes..."
+sudo salt "*msg01*" cmd.run "sudo grep -Eir 'WARNING' /var/log/ -R" > $MSG_NODES_DIR/msg01_warnings.log
+sudo salt "*msg02*" cmd.run "sudo grep -Eir 'WARNING' /var/log/ -R" > $MSG_NODES_DIR/msg02_warnings.log
+sudo salt "*msg03*" cmd.run "sudo grep -Eir 'WARNING' /var/log/ -R" > $MSG_NODES_DIR/msg03_warnings.log
+
+# Collecting Errors from prx* nodes
+echo "Getting Errors on prx* Nodes..."
+sudo salt "*prx01*" cmd.run "sudo grep -Eir 'ERROR' /var/log/ -R" > $PRX_NODES_DIR/prx01_errors.log
+sudo salt "*prx02*" cmd.run "sudo grep -Eir 'ERROR' /var/log/ -R" > $PRX_NODES_DIR/prx02_errors.log
+
+# Collecting Warnings from prx* nodes
+echo "Getting Warnings on prx* Nodes..."
+sudo salt "*prx01*" cmd.run "sudo grep -Eir 'WARNING' /var/log/ -R" > $PRX_NODES_DIR/prx01_warnings.log
+sudo salt "*prx02*" cmd.run "sudo grep -Eir 'WARNING' /var/log/ -R" > $PRX_NODES_DIR/prx02_warnings.log
+
+# Collecting Errors from log* nodes
+echo "Getting Errors on log* Nodes..."
+sudo salt "*log01*" cmd.run "sudo grep -Eir 'ERROR' /var/log/ -R" > $LOG_NODES_DIR/log01_errors.log
+sudo salt "*log02*" cmd.run "sudo grep -Eir 'ERROR' /var/log/ -R" > $LOG_NODES_DIR/log02_errors.log
+sudo salt "*log03*" cmd.run "sudo grep -Eir 'ERROR' /var/log/ -R" > $LOG_NODES_DIR/log03_errors.log
+
+# Collecting Warnings from log* nodes
+echo "Getting Warnings on log* Nodes..."
+sudo salt "*log01*" cmd.run "sudo grep -Eir 'WARNING' /var/log/ -R" > $LOG_NODES_DIR/log01_warnings.log
+sudo salt "*log02*" cmd.run "sudo grep -Eir 'WARNING' /var/log/ -R" > $LOG_NODES_DIR/log02_warnings.log
+sudo salt "*log03*" cmd.run "sudo grep -Eir 'WARNING' /var/log/ -R" > $LOG_NODES_DIR/log03_warnings.log
+
+# Collecting Errors from mon* Nodes
+echo "Getting Errors on mon* Nodes..."
+sudo salt "*mon01*" cmd.run "sudo grep -Eir 'ERROR' /var/log/ -R" > $MON_NODES_DIR/mon01_errors.log
+sudo salt "*mon02*" cmd.run "sudo grep -Eir 'ERROR' /var/log/ -R" > $MON_NODES_DIR/mon02_errors.log
+sudo salt "*mon03*" cmd.run "sudo grep -Eir 'ERROR' /var/log/ -R" > $MON_NODES_DIR/mon03_errors.log
+
+# Collecting Warnings from mon* Nodes
+echo "Getting Warnings on mon* Nodes..."
+sudo salt "*mon01*" cmd.run "sudo grep -Eir 'WARNING' /var/log/ -R" > $MON_NODES_DIR/mon01_warnings.log
+sudo salt "*mon02*" cmd.run "sudo grep -Eir 'WARNING' /var/log/ -R" > $MON_NODES_DIR/mon02_warnings.log
+sudo salt "*mon03*" cmd.run "sudo grep -Eir 'WARNING' /var/log/ -R" > $MON_NODES_DIR/mon03_warnings.log
+
 # Get Cluster Info by Node Information
+echo "Getting Salt Cluster Information..."
 sudo salt '*' status.cpuinfo --out=json > $CLUSTER_DIR/$(echo $CLUSTER_NAME)_mcpinfo_$(date +'%Y%-m%d')_nodes_cpuinfo.json
 sudo salt '*' status.cpustats --out=json > $CLUSTER_DIR/$(echo $CLUSTER_NAME)_mcpinfo_$(date +'%Y%-m%d')_nodes_cpustats.json
 sudo salt '*' status.meminfo --out=json > $CLUSTER_DIR/$(echo $CLUSTER_NAME)_mcpinfo_$(date +'%Y%-m%d')_nodes_meminfo.json
