@@ -39,7 +39,8 @@ MCP_VERSION="$(sudo grep -wr 'mcp_version:' /srv/salt/reclass/classes/cluster/$(
 SUPPORT_DUMP_DIR="/tmp/$(sudo ls /srv/salt/reclass/classes/cluster/)_mcpinfo/support_dump_mcpinfo_$(date +'%Y%-m%d')"
 SOSREPORT_AVAILABILITY="sudo grep -i 'sosreport' $RECLASS_CLUSTER_DIR/infra/init.yml"
 SOSREPORT_TARGET_FILE="$RECLASS_CLUSTER_DIR/infra/init.yml"
-
+PROMETHEUS_SCRAPE_TARGET="grep mon /etc/hosts | awk '{print $1}' | sed -n 1p"
+PROMETHEUS_SCRAPE="curl -s http://$(grep mon /etc/hosts | awk '{print $1}' | sed -n 1p):15010/alerts | grep -wi active"
 
 # Support Dump Sub-Directories
 # ============================
@@ -48,6 +49,9 @@ NODES_DIR="/tmp/$(sudo ls /srv/salt/reclass/classes/cluster/)_mcpinfo/support_du
 CLUSTER_DIR="/tmp/$(sudo ls /srv/salt/reclass/classes/cluster/)_mcpinfo/support_dump_mcpinfo_$(date +'%Y%-m%d')/cluster"
 RECLASS_DIR="/tmp/$(sudo ls /srv/salt/reclass/classes/cluster/)_mcpinfo/support_dump_mcpinfo_$(date +'%Y%-m%d')/reclass"
 GIT_DIR="/tmp/$(sudo ls /srv/salt/reclass/classes/cluster/)_mcpinfo/support_dump_mcpinfo_$(date +'%Y%-m%d')/git"
+PROMETHEUS_DIR="/tmp/$(sudo ls /srv/salt/reclass/classes/cluster/)_mcpinfo/support_dump_mcpinfo_$(date +'%Y%-m%d')/stacklight/prometheus"
+KIBANA_DIR="/tmp/$(sudo ls /srv/salt/reclass/classes/cluster/)_mcpinfo/support_dump_mcpinfo_$(date +'%Y%-m%d')/stacklight/kibana"
+GRAFANA_DIR="/tmp/$(sudo ls /srv/salt/reclass/classes/cluster/)_mcpinfo/support_dump_mcpinfo_$(date +'%Y%-m%d')/stacklight/grafana"
 
 # Nodes Sub-Directories
 # =====================
@@ -85,6 +89,7 @@ if [ -d "$MCP_INFO_DIR" ]; then
     echo "Making Support Dump $SUPPORT_DUMP_DIR Sub-Directory..."
     mkdir $SUPPORT_DUMP_DIR
     mkdir $OPENSTACK_DIR $NODES_DIR $CLUSTER_DIR $RECLASS_DIR $GIT_DIR
+    mkdir $STACKLIGHT_DIR $PROMETHEUS_DIR $KIBANA_DIR $GRAFANA_DIR
     mkdir $CTL_NODES_DIR $CMP_NODES_DIR $OSD_NODES_DIR $KVM_NODES_DIR
     mkdir $BMT_NODES_DIR $PRX_NODES_DIR $LOG_NODES_DIR $RGW_NODES_DIR
     mkdir $MSG_NODES_DIR $NAL_NODES_DIR $CMN_NODES_DIR $MDB_NODES_DIR
@@ -105,6 +110,7 @@ else
     echo "Making Support Dump $SUPPORT_DUMP_DIR Sub-Directory..."
     mkdir $SUPPORT_DUMP_DIR
     mkdir $OPENSTACK_DIR $NODES_DIR $CLUSTER_DIR $RECLASS_DIR $GIT_DIR
+    mkdir $STACKLIGHT_DIR $PROMETHEUS_DIR $KIBANA_DIR $GRAFANA_DIR
     mkdir $CTL_NODES_DIR $CMP_NODES_DIR $OSD_NODES_DIR $KVM_NODES_DIR
     mkdir $BMT_NODES_DIR $PRX_NODES_DIR $LOG_NODES_DIR $RGW_NODES_DIR
     mkdir $MSG_NODES_DIR $NAL_NODES_DIR $CMN_NODES_DIR $MDB_NODES_DIR
@@ -285,6 +291,7 @@ sudo git --git-dir=/srv/salt/reclass/.git diff master --stat > $GIT_DIR/$(echo $
 
 # Copy out Stacklight Information
 echo "Scraping Prometheus for Current Alerts..."
+$PROMETHEUS_SCRAPE > $PROMETHEUS_DIR/alerts_active_$(date +'%Y%-m%d').html
 
 # Scrape Grafana
 echo "Scraping Grafana..."
