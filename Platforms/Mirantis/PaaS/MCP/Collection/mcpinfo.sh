@@ -151,7 +151,7 @@ echo "Getting Hosts..."
 sudo jq -R -s 'split("\n")' /etc/hosts > $SUPPORT_DUMP_DIR/$(echo $CLUSTER_NAME)_mcpinfo_$(date +'%Y%-m%d')_hosts.json
 
 # Test-Ping Nodes
-sudo salt "*" test.ping --out=json > $SUPPORT_DUMP_DIR/$(echo $CLUSTER_NAME)_mcpinfo_$(date +'%Y%-m%d')_test_ping.json
+sudo salt "*" test.ping -t 5 --hide-timeout --out=json > $SUPPORT_DUMP_DIR/$(echo $CLUSTER_NAME)_mcpinfo_$(date +'%Y%-m%d')_test_ping.json
 
 # Collecting Errors Across ctl* Nodes
 echo "Getting Errors on ctl* Nodes..."
