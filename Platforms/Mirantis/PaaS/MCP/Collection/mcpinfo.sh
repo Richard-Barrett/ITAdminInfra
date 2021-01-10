@@ -308,14 +308,6 @@ curl -s -XGET http://$KIBANA_SCRAPE_TARGET:9200/_cat/shards > $KIBANA_DIR/$(echo
 curl -s -XGET http://$KIBANA_SCRAPE_TARGET:9200/_cat/thread_pool > $KIBANA_DIR/$(echo $CLUSTER_NAME)_cluster_thread_pool_$(date +'%Y%-m%d').json
 curl -s -XGET http://$KIBANA_SCRAPE_TARGET:9200/_cat/indices > $KIBANA_DIR/$(echo $CLUSTER_NAME)_cluster_indicies_$(date +'%Y%-m%d').json
 
-# Copy Openstack Logs to Salt-Master
-# Nova
-# Cinder
-# Glance
-# Nuetron
-# Keystone
-# Octavia
-
 # Compress Directory with TAR
 # ===========================
 echo "Compressing $SUPPORT_DUMP_DIR..."
