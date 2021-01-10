@@ -50,6 +50,7 @@ NODES_DIR="/tmp/$(sudo ls /srv/salt/reclass/classes/cluster/)_mcpinfo/support_du
 CLUSTER_DIR="/tmp/$(sudo ls /srv/salt/reclass/classes/cluster/)_mcpinfo/support_dump_mcpinfo_$(date +'%Y%-m%d')/cluster"
 RECLASS_DIR="/tmp/$(sudo ls /srv/salt/reclass/classes/cluster/)_mcpinfo/support_dump_mcpinfo_$(date +'%Y%-m%d')/reclass"
 GIT_DIR="/tmp/$(sudo ls /srv/salt/reclass/classes/cluster/)_mcpinfo/support_dump_mcpinfo_$(date +'%Y%-m%d')/git"
+STACKLIGHT_DIR="/tmp/$(sudo ls /srv/salt/reclass/classes/cluster/)_mcpinfo/support_dump_mcpinfo_$(date +'%Y%-m%d')/stacklight"
 PROMETHEUS_DIR="/tmp/$(sudo ls /srv/salt/reclass/classes/cluster/)_mcpinfo/support_dump_mcpinfo_$(date +'%Y%-m%d')/stacklight/prometheus"
 KIBANA_DIR="/tmp/$(sudo ls /srv/salt/reclass/classes/cluster/)_mcpinfo/support_dump_mcpinfo_$(date +'%Y%-m%d')/stacklight/kibana"
 GRAFANA_DIR="/tmp/$(sudo ls /srv/salt/reclass/classes/cluster/)_mcpinfo/support_dump_mcpinfo_$(date +'%Y%-m%d')/stacklight/grafana"
@@ -131,7 +132,7 @@ fi
 #while [ $EXIT
 # SOSREPORT Audit Log for All Nodes
 echo "Getting SOSREPORT Audit..."
-SOSREPORT_AUDIT="$(sudo salt "*" cmd.exec_code bash "which sosreport" -t 5 --hide-timeout --out=json > $SUPPORT_DUMP_DIR/$(echo $CLUSTER_NAME)_mcpinfo_$(date +'%Y%-m%d')_sosreport_audit.json)"
+SOSREPORT_AUDIT="$(sudo salt "*" cmd.exec_code bash "which sosreport" -t 2 --hide-timeout --out=json > $SUPPORT_DUMP_DIR/$(echo $CLUSTER_NAME)_mcpinfo_$(date +'%Y%-m%d')_sosreport_audit.json)"
 if [ ! $SOSREPORT_AUDIT ] ; then 
   echo "SOSREPORT Audit Created..."
 else
