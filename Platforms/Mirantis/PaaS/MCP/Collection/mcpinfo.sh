@@ -41,6 +41,7 @@ SOSREPORT_AVAILABILITY="sudo grep -i 'sosreport' $RECLASS_CLUSTER_DIR/infra/init
 SOSREPORT_TARGET_FILE="$RECLASS_CLUSTER_DIR/infra/init.yml"
 PROMETHEUS_SCRAPE_TARGET="grep mon /etc/hosts | awk '{print $1}' | sed -n 1p"
 PROMETHEUS_SCRAPE="curl -s http://$(grep mon /etc/hosts | awk '{print $1}' | sed -n 1p):15010/alerts | grep -wi active"
+KIBANA_SCRAPE_TARGET="grep log /etc/hosts | awk '{print $1}' | sed -n 1p"
 
 # Support Dump Sub-Directories
 # ============================
@@ -294,10 +295,18 @@ echo "Scraping Prometheus for Current Alerts..."
 $PROMETHEUS_SCRAPE > $PROMETHEUS_DIR/alerts_active_$(date +'%Y%-m%d').html
 
 # Scrape Grafana
-echo "Scraping Grafana..."
+#echo "Scraping Grafana..."
 
 # Scrape Kibana
 echo "Scraping Kibana..."
+curl -s -XGET http://$KIBANA_SCRAPE_TARGET:9200/_cluster/health?pretty > $KIBANA_DIR/$(echo $CLUSTER_NAME)_cluster_health_$(date +'%Y%-m%d').json
+curl -s -XGET http://$KIBANA_SCRAPE_TARGET:9200/_cluster/state?pretty > $KIBANA_DIR/$(echo $CLUSTER_NAME)_cluster_state_$(date +'%Y%-m%d').json
+curl -s -XGET http://$KIBANA_SCRAPE_TARGET:9200/_segments/?pretty > $KIBANA_DIR/$(echo $CLUSTER_NAME)_segments_$(date +'%Y%-m%d').json
+curl -s -XGET http://$KIBANA_SCRAPE_TARGET:9200/_cat/allocation > $KIBANA_DIR/$(echo $CLUSTER_NAME)_cluster_allocation_$(date +'%Y%-m%d').json
+curl -s -XGET http://$KIBANA_SCRAPE_TARGET:9200/_cat/segments > $KIBANA_DIR/$(echo $CLUSTER_NAME)_cluster_segments_$(date +'%Y%-m%d').json
+curl -s -XGET http://$KIBANA_SCRAPE_TARGET:9200/_cat/shards > $KIBANA_DIR/$(echo $CLUSTER_NAME)_cluster_shards_$(date +'%Y%-m%d').json
+curl -s -XGET http://$KIBANA_SCRAPE_TARGET:9200/_cat/thread_pool > $KIBANA_DIR/$(echo $CLUSTER_NAME)_cluster_thread_pool_$(date +'%Y%-m%d').json
+curl -s -XGET http://$KIBANA_SCRAPE_TARGET:9200/_cat/indices > $KIBANA_DIR/$(echo $CLUSTER_NAME)_cluster_indicies_$(date +'%Y%-m%d').json
 
 # Copy Openstack Logs to Salt-Master
 # Nova
