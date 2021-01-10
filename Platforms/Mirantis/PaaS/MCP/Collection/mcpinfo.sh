@@ -294,9 +294,6 @@ sudo git --git-dir=/srv/salt/reclass/.git diff master --stat > $GIT_DIR/$(echo $
 echo "Scraping Prometheus for Current Alerts..."
 $PROMETHEUS_SCRAPE > $PROMETHEUS_DIR/alerts_active_$(date +'%Y%-m%d').html
 
-# Scrape Grafana
-#echo "Scraping Grafana..."
-
 # Scrape Kibana
 echo "Scraping Kibana..."
 curl -s -XGET http://$KIBANA_SCRAPE_TARGET:9200/_cluster/health?pretty > $KIBANA_DIR/$(echo $CLUSTER_NAME)_cluster_health_$(date +'%Y%-m%d').json
