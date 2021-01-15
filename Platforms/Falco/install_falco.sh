@@ -10,5 +10,5 @@ echo "deb https://dl.bintray.com/falcosecurity/deb stable main" | tee -a /etc/ap
 apt-get update -y
 
 apt-get install -y falco
-service start falco
+service falco start
 systemctl enable falco
